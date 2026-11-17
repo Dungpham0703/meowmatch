@@ -60,3 +60,7 @@ docker compose --env-file .env.ec2 -f deploy/compose.yml logs --tail=100 api web
 PostgreSQL and embeddings use persistent Docker volumes. Back up the database, source image files, and secret configuration before rebuilding or deleting the instance. Stopping an instance does not release its Elastic IP or remove its EBS storage; those resources can continue to incur charges. Do not use `down -v` unless deliberately deleting the stored data.
 
 A domain can be added later by pointing a new domain's DNS to the Elastic IP and configuring HTTPS. It does not need to share the IELTS domain.
+
+## HTTPS hostname
+
+The current live deployment also enables the [free HTTPS hostname configuration](HTTPS.md). When updating that deployment, include `-f deploy/compose.https.yml` after the base compose file so HTTPS remains enabled.

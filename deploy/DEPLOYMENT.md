@@ -1,6 +1,7 @@
 # Current MeowMatch deployment
 
-- URL: **http://3.104.167.1** (direct HTTP access by Elastic IP)
+- URL: **https://meowmatch.3.104.167.1.sslip.io** (free hostname + Let's Encrypt HTTPS)
+- Direct IP: **http://3.104.167.1**
 - AWS region: `ap-southeast-2` (Sydney)
 - EC2: `meowmatch-prod`, instance `i-0db54d1dc7c4e84b7`
 - Instance type: `t4g.small` (ARM64, 2 vCPU, 2 GiB RAM), standard CPU credits
@@ -19,14 +20,14 @@ The SSH key and runtime secrets are on the original workstation under the ignore
 ssh -i .cache/ec2/meowmatch.pem ubuntu@3.104.167.1
 ```
 
-SSH is restricted to the administrator IP used during setup. If that IP changes, update the SSH source rule on the MeowMatch security group through AWS before connecting. HTTP/80 is public; PostgreSQL/5432 and API/8000 are not published.
+SSH is restricted to the administrator IP used during setup. If that IP changes, update the SSH source rule on the MeowMatch security group through AWS before connecting. HTTP/80 and HTTPS/443 are public; PostgreSQL/5432 and API/8000 are not published.
 
 On the instance:
 
 ```sh
 cd ~/meowmatch
-docker compose --env-file .env.ec2 -f deploy/compose.yml ps
-docker compose --env-file .env.ec2 -f deploy/compose.yml logs --tail=100 api web
+docker compose --env-file .env.ec2 -f deploy/compose.yml -f deploy/compose.https.yml ps
+docker compose --env-file .env.ec2 -f deploy/compose.yml -f deploy/compose.https.yml logs --tail=100 api web
 ```
 
 Services restart automatically with Docker after a reboot. Source and images were transferred directly from the workstation; the deployment directory is an extracted source snapshot rather than a Git checkout. The original workstation's ignored `.cache/ec2/state.json` records the provisioned resources for administration.
@@ -47,3 +48,5 @@ This is an estimate before taxes, data transfer, Gemini usage, and any AWS credi
 ## Verified
 
 The app, database, and proxy started successfully on ARM64. All 400 existing image vectors were restored from cache. Both keyword and image semantic search returned live results, and browser checks passed through the public IP for English UI/content, two search methods, desktop/mobile/tablet layouts, dialogs, keyboard tabs, API failures, and stale responses. AWS system and instance checks were healthy.
+
+HTTPS setup and renewal are documented in [HTTPS.md](HTTPS.md). The free hostname and certificate do not add registration or certificate fees.

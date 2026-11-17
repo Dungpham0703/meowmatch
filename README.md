@@ -2,7 +2,7 @@
 
 **Find your kind of cat.** One query, two ways to search a collection of **400 cat memes**. The interface, meme names, captions, tags, and visual descriptions are in English.
 
-**Live demo:** [http://3.104.167.1](http://3.104.167.1) · [Deployment details](deploy/DEPLOYMENT.md)
+**Live demo:** [https://meowmatch.3.104.167.1.sslip.io](https://meowmatch.3.104.167.1.sslip.io) · [Deployment details](deploy/DEPLOYMENT.md)
 
 | Method | Searches | Ranking |
 | --- | --- | --- |
@@ -116,4 +116,4 @@ The browser test verifies English UI/content, exactly two search methods, live r
 
 ## EC2 deployment
 
-See [the standalone EC2 deployment guide](deploy/README.md) for the app + pgvector + Nginx Docker stack. It supports direct HTTP access by IP and keeps the database/API ports private. No AWS resources are created by these files.
+See [the standalone EC2 deployment guide](deploy/README.md) for the app + pgvector + Nginx Docker stack. It supports direct HTTP access by IP and [free HTTPS by hostname](deploy/HTTPS.md), and keeps the database/API ports private. No AWS resources are created by these files.

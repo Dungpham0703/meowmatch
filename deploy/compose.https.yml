@@ -1,0 +1,12 @@
+services:
+  web:
+    ports:
+      - "443:443"
+    environment:
+      SITE_ADDRESS: ${SITE_ADDRESS:?Set SITE_ADDRESS}
+      NGINX_ENVSUBST_FILTER: "^SITE_ADDRESS$$"
+    volumes: !override
+      - ./nginx.https.conf.template:/etc/nginx/templates/default.conf.template:ro
+      - ./nginx-proxy.conf:/etc/nginx/snippets/meowmatch-proxy.conf:ro
+      - /etc/letsencrypt:/etc/letsencrypt:ro
+      - /var/www/certbot:/var/www/certbot:ro

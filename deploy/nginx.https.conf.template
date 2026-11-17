@@ -1,0 +1,39 @@
+limit_req_zone $binary_remote_addr zone=search_per_ip:10m rate=10r/m;
+limit_req_zone $server_addr zone=search_global:1m rate=1r/s;
+
+# Preserve direct HTTP access by IP.
+server {
+    listen 80 default_server;
+    server_name _;
+    client_max_body_size 8k;
+    limit_req_status 429;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    include /etc/nginx/snippets/meowmatch-proxy.conf;
+}
+server {
+    listen 80;
+    server_name ${SITE_ADDRESS};
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    location / {
+        return 308 https://$host$request_uri;
+    }
+}
+server {
+    listen 443 ssl;
+    server_name ${SITE_ADDRESS};
+    ssl_certificate /etc/letsencrypt/live/${SITE_ADDRESS}/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/${SITE_ADDRESS}/privkey.pem;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 1d;
+    client_max_body_size 8k;
+    limit_req_status 429;
+    location /.well-known/acme-challenge/ {
+        root /var/www/certbot;
+    }
+    include /etc/nginx/snippets/meowmatch-proxy.conf;
+}
