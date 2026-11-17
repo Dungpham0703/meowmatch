@@ -2,6 +2,8 @@
 
 **Find your kind of cat.** One query, two ways to search a collection of **400 cat memes**. The interface, meme names, captions, tags, and visual descriptions are in English.
 
+**Live demo:** [http://3.104.167.1](http://3.104.167.1) · [Deployment details](deploy/DEPLOYMENT.md)
+
 | Method | Searches | Ranking |
 | --- | --- | --- |
 | Keyword Search | Words in meme names, captions, tags, and visual descriptions | PostgreSQL full-text rank |
