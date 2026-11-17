@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#fafafa">
+  <meta name="description" content="Find the right cat meme. Compare keyword search and image semantic search with one query.">
+  <title>MeowMatch — Find your kind of cat.</title>
+  <link rel="icon" href="/static/cat.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/style.css">
+  <script src="/static/app.js" defer></script>
+</head>
+<body>
+  <a class="skip-link" href="#search-form">Skip to search</a>
+  <header class="site-header wrap">
+    <a class="wordmark" href="/" aria-label="MeowMatch — Home"><img src="/static/cat.svg" alt="" width="32" height="32"><span>meow<span class="wordmark-light">match</span><span class="wordmark-dot">.</span></span></a>
+    <div class="header-right"><span class="edition">CAT MEMES, HUMAN FEELINGS</span><button id="about-button" class="text-button">How it works <span aria-hidden="true">↗</span></button></div>
+  </header>
+  <main class="wrap">
+    <section class="intro" aria-labelledby="page-title">
+      <div><p class="eyebrow">ONE QUERY · TWO SEARCH METHODS</p><h1 id="page-title">Find your<br><span class="muted-heading">kind of cat.</span></h1></div>
+      <p class="intro-note">A cat meme for every mood.<br class="desktop-break"> Two ways to find your match.<br><span>Same query. Same cats. Different results.</span></p>
+    </section>
+    <form id="search-form" class="search-form" role="search">
+      <label for="query" class="sr-only">What kind of cat meme are you looking for?</label>
+      <svg class="search-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg>
+      <input id="query" name="query" type="search" maxlength="500" placeholder="Describe a mood. Find a cat…" value="judgmental cat" required autocomplete="off">
+      <label class="top-k-label" for="top-k"><span class="sr-only">Results per search method</span><select id="top-k"><option value="5">Top 5</option><option value="10">Top 10</option></select></label>
+      <button class="search-button" id="search-button" type="submit"><span>Find memes</span><span aria-hidden="true">↗</span></button>
+    </form>
+    <div class="suggestions"><span>Try</span><button type="button" data-query="when the deadline is tomorrow and I have done nothing">deadline panic</button><button type="button" data-query="pretending to be fine but falling apart inside">totally fine</button><button type="button" data-query="broke at the end of the month">broke again</button><button type="button" data-query="a cat judging my life choices">judging you</button></div>
+    <p id="form-error" class="form-error" role="alert" hidden></p>
+    <section class="comparison" aria-labelledby="comparison-title">
+      <div class="section-heading"><div><h2 id="comparison-title">One query. Two ways to search.</h2><p id="query-summary" aria-live="polite">The same cat memes, found in different ways.</p></div><span id="collection-count" class="collection-count">Connecting…</span></div>
+      <div class="mobile-tabs" role="tablist" aria-label="Choose a search method"><button id="tab-keyword" role="tab" aria-controls="panel-keyword" aria-selected="true" data-method="keyword">Keyword</button><button id="tab-image" role="tab" aria-controls="panel-image" aria-selected="false" tabindex="-1" data-method="image">Image Semantic</button></div>
+      <div class="result-columns" id="results" aria-busy="false">
+        <section class="method-column is-active" id="panel-keyword" aria-labelledby="heading-keyword"><div class="column-heading"><div class="method-label"><span class="method-number">01</span><h3 id="heading-keyword">Keyword Search</h3></div><div class="method-meta" id="meta-keyword">KEYWORD SEARCH</div></div><div class="result-list" id="list-keyword"></div></section>
+        <section class="method-column" id="panel-image" aria-labelledby="heading-image"><div class="column-heading"><div class="method-label"><span class="method-number">02</span><h3 id="heading-image">Image Semantic Search</h3></div><div class="method-meta" id="meta-image">IMAGE EMBEDDING</div></div><div class="result-list" id="list-image"></div></section>
+      </div>
+    </section>
+    <details class="technical"><summary>Behind this search <span aria-hidden="true">+</span></summary><div id="technical-content">Image semantic search uses query and image embeddings from the same model. Scores are not accuracy percentages.</div></details>
+  </main>
+  <footer class="site-footer wrap"><span>meow<span class="wordmark-light">match</span>.</span><p>Some feelings are better said with a cat.</p><span class="footer-note">MADE FOR YOUR MOOD</span></footer>
+  <dialog id="detail-dialog" aria-labelledby="detail-name"><div class="dialog-top"><span class="eyebrow">YOUR CAT MEME</span><button class="close-button" data-close="detail-dialog" aria-label="Close meme details">×</button></div><div class="detail-layout"><div class="detail-image-wrap"><img id="detail-image" src="/static/cat.svg" alt="" width="440" height="440"></div><div class="detail-info"><h2 id="detail-name"></h2><p id="detail-caption"></p><div id="detail-tags" class="detail-tags"></div><h3>In this search</h3><div id="detail-ranks"></div><a id="original-link" class="original-link" href="/" target="_blank" rel="noopener">View original image <span aria-hidden="true">↗</span></a></div></div></dialog>
+  <dialog id="about-dialog" aria-labelledby="about-title"><div class="dialog-top"><span class="eyebrow">SAME QUERY. DIFFERENT WAYS TO MATCH.</span><button class="close-button" data-close="about-dialog" aria-label="Close explanation">×</button></div><div class="about-content"><h2 id="about-title">Two ways to find<br>your kind of cat.</h2><dl><dt>01 / Keyword Search</dt><dd>Matches words in meme names, captions, tags, and visual descriptions. Try something literal, like “cat wearing sunglasses”.</dd><dt>02 / Image Semantic Search</dt><dd>Compares your query embedding with embeddings created directly from meme images. The ranking uses the images themselves, without their captions.</dd></dl><p class="about-footnote">Both methods search the same collection. Image semantic search uses the same model for queries and images. The nearest match may still miss your intended mood.</p></div></dialog>
+</body>
+</html>

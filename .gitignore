@@ -1,0 +1,15 @@
+.env
+.env.*
+!.env.example
+.venv/
+__pycache__/
+*.pyc
+.cache/
+*.sqlite
+*.sqlite-*
+*:Zone.Identifier
+node_modules/
+artifacts/
+*ui-ux-pro-max-skill-main/**
+stickers/**
+!stickers/.gitkeep
