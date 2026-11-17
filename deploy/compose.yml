@@ -1,0 +1,49 @@
+name: meowmatch
+services:
+  db:
+    image: pgvector/pgvector:pg16
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: meowmatch
+      POSTGRES_USER: meowmatch
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U meowmatch -d meowmatch"]
+      interval: 3s
+      timeout: 3s
+      retries: 20
+  api:
+    build:
+      context: ..
+    image: meowmatch:local
+    restart: unless-stopped
+    environment:
+      DATABASE_URL: postgresql://meowmatch:${POSTGRES_PASSWORD:?Set POSTGRES_PASSWORD}@db:5432/meowmatch
+      GEMINI_API_KEY: ${GEMINI_API_KEY:?Set GEMINI_API_KEY}
+      EMBEDDING_MODEL: gemini-embedding-2
+    volumes:
+      - ../stickers:/app/stickers:ro
+      - embedding_cache:/app/.cache/embeddings
+    depends_on:
+      db:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://127.0.0.1:8000/api/health',timeout=3)"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+  web:
+    image: nginx:stable-alpine
+    restart: unless-stopped
+    ports:
+      - "${HTTP_PORT:-80}:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    depends_on:
+      api:
+        condition: service_healthy
+volumes:
+  postgres_data:
+  embedding_cache:

@@ -1,0 +1,17 @@
+.git
+.env
+.env.*
+.venv
+.cache
+.aws
+.agents
+.codex
+__pycache__
+**/__pycache__
+*.sqlite*
+*:Zone.Identifier
+stickers
+artifacts
+ui-ux-pro-max-skill-main
+node_modules
+sticker_montage.jpg

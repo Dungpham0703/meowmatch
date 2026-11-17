@@ -111,3 +111,7 @@ node tests/browser.cjs
 ```
 
 The browser test verifies English UI/content, exactly two search methods, live retrieval, desktop/mobile/tablet layouts, keyboard tabs, dialogs, stale-response handling, and failure states. It calls Gemini for uncached test queries. Screenshots and API snapshots are written to the ignored `artifacts/` directory.
+
+## EC2 deployment
+
+See [the standalone EC2 deployment guide](deploy/README.md) for the app + pgvector + Nginx Docker stack. It supports direct HTTP access by IP and keeps the database/API ports private. No AWS resources are created by these files.

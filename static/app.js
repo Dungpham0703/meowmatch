@@ -88,7 +88,7 @@ async function search(event) {
       method: 'POST', headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({query, top_k: Number($('top-k').value)}), signal: controller.signal
     });
-    if (!response.ok) throw new Error(response.status === 503 ? 'The database is unavailable. Please try again shortly.' : 'Could not load results. Please try again.');
+    if (!response.ok) throw new Error(response.status === 429 ? 'Too many searches. Please wait a moment and try again.' : response.status === 503 ? 'The database is unavailable. Please try again shortly.' : 'Could not load results. Please try again.');
     const data = await response.json();
     if (number !== requestNumber) return;
     render(data);
